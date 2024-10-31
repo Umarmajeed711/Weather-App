@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- Axios link -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- Bootstrap CSS file link -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap javascript file link -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Font Awesome link -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- Custom CSS file link -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="d-flex justify-content-center align-items-center">
+    <!-- main div -->
+    <div class="center px-3 mt-5">
+      <!-- upper Div -->
+      <div class="upperdiv">
+        <!-- search div -->
+        <div class="searchdiv px-2 mt-3">
+          <input
+            type="text"
+            id="city"
+            placeholder="Montreal"
+            class="firstInput"
+          />
+          <i class="fa-solid fa-magnifying-glass" onclick="check()"></i>
+        </div>
+
+        <!-- // Result Div -->
+
+        <!-- city Name -->
+        <div>
+          <h2 id="cityName" class="mt-2">Montreal</h2>
+        </div>
+
+        <!-- Weather Feel like -->
+        <div class="d-flex">
+          <h1 id="temp" style="font-size: 48px">19</h1>
+          <i class="fa-regular fa-circle mt-2"></i>
+        </div>
+
+        <!-- Weather Condition -->
+        <div>
+          <p id="weatherCondition">Mostly Clear</p>
+        </div>
+
+        <!-- Humidity -->
+
+        <div class="humidity">Humidity: <span id="humidity">10</span></div>
+
+        <div>
+          <img
+            src="https:cdn.weatherapi.com/weather/64x64/day/143.png"
+            alt=""
+            id="icon"
+          />
+        </div>
+      </div>
+
+      <!-- Other Details -->
+      <div class="blur mt-3">
+        <div>
+          <p class="para">
+            <span class="city">Montreal</span>,
+            <span id="province">FinkLand</span>,
+            <span id="country">Scotland</span>
+            <i class="fa-solid fa-location-crosshairs"></i>
+          </p>
+        </div>
+        <div>
+          <p class="para">
+            <span id="time">23-04-2024 04:00</span>
+            <i class="fa-regular fa-clock"></i>
+          </p>
+        </div>
+        <div>
+          <p class="para">
+            Visibility: <span id="visibility">40</span> km
+            <i class="fa-solid fa-eye"></i>
+          </p>
+        </div>
+        <div>
+          <p class="para">
+            Wind Speed: <span id="windSpeed">110</span> kph
+            <i class="fa-solid fa-wind"></i>
+          </p>
+        </div>
+
+        <div>
+          <p class="para">
+            Temp C: <span id="tempC">19</span>
+            <i class="fa-solid fa-temperature-half"></i>
+          </p>
+        </div>
+
+        <div>
+          <p class="para">
+            Temp F: <span id="tempF">60.2</span>
+            <i class="fa-solid fa-temperature-half"></i>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function check() {
+        let city = document.getElementById("city").value;
+
+        axios
+          .get(
+            `https://api.weatherapi.com/v1/current.json?key=d347dfb1a00b4f86add45435242510&q= ${city}`
+          )
+          .then(function (response) {
+            console.log(response.data);
+
+            // city name
+            document.getElementById("cityName").innerText =
+              response.data.location.name;
+
+            // temp feel like
+            document.getElementById("temp").innerText =
+              response.data.current.feelslike_c;
+
+            // weather condition
+            let condition = (document.getElementById(
+              "weatherCondition"
+            ).innerText = response.data.current.condition.text);
+
+            // humidity
+            document.getElementById("humidity").innerText =
+              response.data.current.humidity;
+
+            // icon
+            document.getElementById(
+              "icon"
+            ).src = `https:${response.data.current.condition.icon}`;
+
+            // city name
+            document.querySelector(".city").innerText =
+              response.data.location.name;
+
+            // region
+            document.getElementById("province").innerText =
+              response.data.location.region;
+
+            // country
+            document.getElementById("country").innerText =
+              response.data.location.country;
+
+            // local time
+            document.getElementById("time").innerText =
+              response.data.location.localtime;
+
+            // visibility
+            document.getElementById("visibility").innerText =
+              response.data.current.vis_km;
+
+            // wind speed
+            document.getElementById("windSpeed").innerText =
+              response.data.current.wind_kph;
+
+            // temperature in centigrade
+            document.getElementById("tempC").innerText =
+              response.data.current.temp_c;
+
+            // temperature in Farenhite
+            document.getElementById("tempF").innerText =
+              response.data.current.temp_f;
+          })
+          .catch(function (err) {
+            // console.log(err);
+            alert("enter correct city name!")
+          });
+      }
+    </script>
+  </body>
+</html>
